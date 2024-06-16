@@ -3,15 +3,13 @@ file(GLOB headers *.h *.hpp)
 
 list(REMOVE_ITEM sources main.cpp)
 
-include_directories(../ext/htslib)
-
 add_library(psirc_core ${sources} ${headers})
 target_include_directories(psirc_core PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
 add_executable(psirc-quant main.cpp)
 
 find_package( Threads REQUIRED )
-target_link_libraries(psirc-quant psirc_core pthread ${CMAKE_CURRENT_SOURCE_DIR}/../ext/htslib/libhts.a)
+target_link_libraries(psirc-quant psirc_core pthread htslib)
 
 if(LINK MATCHES static)
     set(BUILD_SHARED_LIBS OFF)
