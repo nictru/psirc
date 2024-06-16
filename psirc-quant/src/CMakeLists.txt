@@ -61,6 +61,8 @@ else()
     )
 endif()
 
+set(LIBRARIES ${HTSLIB})
+
 
 if(LINK MATCHES static)
     if (UNIX AND NOT APPLE)
