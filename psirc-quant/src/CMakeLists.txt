@@ -9,7 +9,7 @@ target_include_directories(psirc_core PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 add_executable(psirc-quant main.cpp)
 
 find_package( Threads REQUIRED )
-target_link_libraries(psirc-quant psirc_core pthread htslib)
+target_link_libraries(psirc-quant psirc_core pthread z)
 
 if(LINK MATCHES static)
     set(BUILD_SHARED_LIBS OFF)
@@ -40,6 +40,25 @@ if(HDF5_FOUND)
     target_link_libraries( psirc-quant ${HDF5_LIBRARIES} )
 else()
     message(FATAL_ERROR "HDF5 not found. Required to output files")
+endif()
+
+if(DEFINED HTSLIB_PREFIX)
+    # using custom htslib prefix
+    find_library(HTSLIB
+        NAMES hts
+        PATHS "${HTSLIB_PREFIX}/lib"
+        REQUIRED
+    )
+    target_include_directories(psirc-quant
+        PUBLIC
+        "${HTSLIB_PREFIX}/include"
+    )
+else()
+    # using default search paths
+    find_library(HTSLIB
+        NAMES hts
+        REQUIRED
+    )
 endif()
 
 
