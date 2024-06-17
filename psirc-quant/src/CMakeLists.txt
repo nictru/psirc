@@ -42,27 +42,13 @@ else()
     message(FATAL_ERROR "HDF5 not found. Required to output files")
 endif()
 
-if(DEFINED HTSLIB_PREFIX)
-    # using custom htslib prefix
-    find_library(HTSLIB
-        NAMES hts
-        PATHS "${HTSLIB_PREFIX}/lib"
-        REQUIRED
-    )
-    target_include_directories(psirc-quant
-        PUBLIC
-        "${HTSLIB_PREFIX}/include"
-    )
-else()
-    # using default search paths
-    find_library(HTSLIB
-        NAMES hts
-        REQUIRED
-    )
-endif()
 
-set(LIBRARIES ${HTSLIB})
-target_link_libraries(psirc-quant ${LIBRARIES})
+find_library(HTSLIB
+    NAMES hts
+    REQUIRED
+)
+
+target_link_libraries(psirc-quant ${HTSLIB})
 
 if(LINK MATCHES static)
     if (UNIX AND NOT APPLE)
