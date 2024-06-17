@@ -62,7 +62,7 @@ else()
 endif()
 
 set(LIBRARIES ${HTSLIB})
-
+target_link_libraries(psirc-quant ${LIBRARIES})
 
 if(LINK MATCHES static)
     if (UNIX AND NOT APPLE)
